@@ -1,0 +1,13 @@
+{
+  "files": [
+    "components/**",
+    "api/**",
+    "lib/**",
+    "app.ts",
+    "server.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es5"
+  }
+}
