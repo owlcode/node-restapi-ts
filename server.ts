@@ -5,13 +5,10 @@ import mongoose = require("mongoose");
 import * as fs from "fs";
 import * as spdy from "spdy";
 import Chat from "./components/chat/index";
-import ChatEventEmitter from "./components/chat/ChatEventEmitter";
 import {Middleware} from "./lib/middleware";
 import Router from "./lib/router";
-import MessageRouter from "./api/message/message";
 
 export class Server {
-    private chatEventEmitter = new ChatEventEmitter();
 
     private certFiles: any = {
         key: fs.readFileSync(__dirname + "/server.key"),
@@ -21,10 +18,8 @@ export class Server {
     constructor(private app: express.Express, private port: number) {
         this.configureDb();
 
-        let messageRouter = new MessageRouter(express.Router(), message, this.chatEventEmitter);
-
         new Middleware().configure(app);
-        new Router(messageRouter).configure(app);
+        new Router().configure(app);
         this.configureChat(app);
     }
 
@@ -40,11 +35,11 @@ export class Server {
 
     /* private */
     private configureChat(app: express.Express) {
-        app.get('/sse/talk', Chat.respondWithActiveTalks(this.chatEventEmitter));
-        app.get('/sse/talk/:id', Chat.respondWithMessages(this.chatEventEmitter))
+        app.get('/sse', Chat.respondWithActiveTalks());
     }
 
     private configureDb() {
+        // todo: refactor to use external settings
         mongoose.connect("mongodb://localhost:27017/pomocny");
     }
 }

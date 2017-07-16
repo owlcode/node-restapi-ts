@@ -2,7 +2,7 @@ import {GenericResponse} from "./GenericResponse";
 import * as express from "express";
 
 export abstract class FunctionalEndpoint extends GenericResponse {
-    protected model;
+    protected model: any;
     private express: any;
 
     constructor(router, model) {
