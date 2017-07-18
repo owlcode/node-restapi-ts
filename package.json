@@ -1,7 +1,6 @@
 {
   "name": "pomocny",
   "version": "0.0.5",
-  "private": true,
   "scripts": {
     "build": "gulp",
     "start": "node ./dist/app.js",
