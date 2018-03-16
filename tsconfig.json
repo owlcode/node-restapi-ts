@@ -1,10 +1,10 @@
 {
   "files": [
-    "components/**",
-    "api/**",
-    "lib/**",
-    "app.ts",
-    "server.ts"
+    "src/components/**",
+    "src/api/**",
+    "src/lib/**",
+    "index.ts",
+    "src/server.ts"
   ],
   "compilerOptions": {
     "noImplicitAny": true,

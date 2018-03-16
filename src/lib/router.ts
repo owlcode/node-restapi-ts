@@ -1,5 +1,5 @@
 import express = require("express");
-import * as auth from "../api/auth/auth";
+import auth from "../api/auth/auth";
 import user from "../api/user/user";
 
 export default class Router {

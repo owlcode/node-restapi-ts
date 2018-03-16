@@ -1,4 +1,4 @@
-import * as express from "express";
+import * as express from 'express';
 
 export default class CrudEndpoint {
     public router: express.Router;
@@ -15,6 +15,7 @@ export default class CrudEndpoint {
         router.get('/:id', this.get.bind(this));
         router.post('/', this.create.bind(this));
         router.put('/:id', this.update.bind(this));
+        router.patch('/:id', this.update.bind(this));
         router.delete('/:id', this.remove.bind(this));
     }
 
@@ -31,7 +32,7 @@ export default class CrudEndpoint {
 
     random(request: express.Request, response: express.Response) {
         this.model.aggregate(
-            { $sample: { size: 1 } }
+            {$sample: {size: 1}}
         )
             .then((array: any) => array[0])
             .then(this.respondWithResult(response))
@@ -39,9 +40,11 @@ export default class CrudEndpoint {
     }
 
     // Crud actions
-    fetch(req: any, response: express.Response) {
-        this.model.find().sort({createdAt: -1})
-            .then(this.respondWithResult(response));
+    fetch(req: express.Request, res: express.Response) {
+        this.model.find(req.query)
+            .sort({createdAt: -1})
+            .then(this.respondWithResult(res));
+
     }
 
     get(request: express.Request, response: express.Response) {
@@ -58,7 +61,7 @@ export default class CrudEndpoint {
 
     update(request: express.Request, response: express.Response) {
         this.model.findOneAndUpdate({_id: request.params.id}, request.body)
-            .then(this.respondWithResult(response, 200))
+            .then(this.respondWithResult(response))
             .catch(this.handleError(response));
     }
 

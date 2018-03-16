@@ -1,6 +1,5 @@
 import * as express from "express";
-import User from './user.model';
-import {IUser} from "./user.model";
+import {User, IUser} from "./user.model";
 import CrudEndpoint from '../CrudEndpoint';
 
 class UserRouter extends CrudEndpoint {

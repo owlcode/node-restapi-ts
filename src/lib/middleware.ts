@@ -9,7 +9,7 @@ export class Middleware {
         app.use("/docs", express.static(__dirname + "/../public/docs.html"));
         app.use((req: express.Request, res: express.Response, next: any) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+            res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, PATCH");
             res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
             next();
         });

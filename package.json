@@ -3,23 +3,30 @@
   "version": "0.0.5",
   "scripts": {
     "build": "gulp",
-    "start": "node ./dist/app.js",
-    "seed": "node ./dist/components/seed/index.js"
+    "start": "nodemon",
+    "seed": "ts-node ./seed/index.ts"
   },
   "dependencies": {
+    "@types/nodemailer": "^4.6.0",
     "@types/spdy": "^3.4.1",
+    "@types/validator": "^9.4.0",
     "body-parser": "1.15.2",
     "cookie-parser": "1.4.3",
     "debug": "2.2.0",
     "express": "4.14.0",
     "jade": "1.11.0",
+    "jsonwebtoken": "^8.2.0",
     "less-middleware": "2.2.0",
     "mongodb": "2.2.22",
     "mongoose": "4.7.8",
     "morgan": "1.7.0",
+    "nodemailer": "^4.6.3",
+    "nodemon": "^1.17.1",
     "promise": "7.1.1",
     "serve-favicon": "2.3.0",
-    "spdy": "3.4.4"
+    "spdy": "3.4.4",
+    "ts-promise": "^1.0.0",
+    "validator": "^9.4.1"
   },
   "devDependencies": {
     "@types/body-parser": "0.0.33",
