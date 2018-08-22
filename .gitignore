@@ -1,5 +1,9 @@
 dist/
 
+# IDEs
+.vscode/
+.idea/
+
 # Logs
 logs
 *.log

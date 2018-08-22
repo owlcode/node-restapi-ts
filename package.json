@@ -4,7 +4,8 @@
   "scripts": {
     "build": "gulp",
     "start": "nodemon",
-    "seed": "ts-node ./seed/index.ts"
+    "seed": "ts-node ./seed/index.ts",
+    "test": "gulp"
   },
   "dependencies": {
     "@types/nodemailer": "^4.6.0",

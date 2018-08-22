@@ -1,3 +1,13 @@
+sudo: false
+
 language: node_js
-    npm i
-    npm start
+
+node_js: stable
+
+services:
+  - mongodb
+
+script: npm run seed
+
+after_success:
+  - npm run test
