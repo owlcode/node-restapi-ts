@@ -1,13 +1,9 @@
 {
   "files": [
-    "src/components/**",
-    "src/api/**",
-    "src/lib/**",
-    "index.ts",
-    "src/server.ts"
+    "src/**/*",
+    "index.ts"
   ],
   "compilerOptions": {
-    "noImplicitAny": true,
-    "target": "es5"
+    "target": "ES5"
   }
 }

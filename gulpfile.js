@@ -8,6 +8,7 @@ var exec = require('child_process').exec;
 gulp.task("default", function () {
     return tsProject.src()
         .pipe(tsProject())
+        .on("error", (err) => console.error(err))
         .js.pipe(gulp.dest("dist"));
 });
 

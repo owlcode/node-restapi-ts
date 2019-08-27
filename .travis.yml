@@ -8,8 +8,8 @@ services:
   - mongodb
 
 script:
- - npm install
+ - npm ci
  - npm run seed
 
-after_success:
-  - npm run test
+# after_success:
+#   - npm run test

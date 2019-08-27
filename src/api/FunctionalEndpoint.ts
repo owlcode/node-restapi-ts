@@ -5,7 +5,7 @@ export abstract class FunctionalEndpoint extends GenericResponse {
     protected model: any;
     private express: any;
 
-    constructor(router, model) {
+    constructor(router: any, model: any) {
         super();
         router;
         this.model = model;

@@ -1,4 +1,4 @@
-import express = require("express");
+import * as express from "express";
 import auth from "../api/auth/auth";
 import user from "../api/user/user";
 

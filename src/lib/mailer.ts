@@ -5,7 +5,7 @@ import {log} from '../../seed/utils';
 
 export const mailer = nodemailer.createTransport(NODEMAILER_TRANSPORT);
 
-export const sendNewMail = (params): Promise<string | boolean> => {
+export const sendNewMail = (params: any): Promise<string | boolean> => {
     return new Promise((resolve, reject) => {
         mailer.sendMail({...getMailOptions(params)}, (err, info) => {
             if (err) {
