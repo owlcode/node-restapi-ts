@@ -6,6 +6,9 @@ export class Middleware {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(express.static(__dirname + "/../public"));
+        app.use(express.static(__dirname + "gallery.css"));
+        console.log(__dirname + "/../photos")
+        app.use(express.static(__dirname + "/../photos"));
         app.use("/docs", express.static(__dirname + "/../public/docs.html"));
         app.use((req: express.Request, res: express.Response, next: any) => {
             res.setHeader("Access-Control-Allow-Origin", "*");

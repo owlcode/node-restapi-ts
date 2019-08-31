@@ -1,5 +1,5 @@
 import * as spdy from 'spdy';
-import Chat from './components/chat/index';
+import Chat from './chat/index';
 import {Middleware} from './lib/middleware';
 import Router from './lib/router';
 import {CERT_FILES_FS, MONGO_URL} from '../settings';

@@ -1,6 +1,7 @@
 {
   "files": [
     "src/**/*",
+    "node-gallery/**/*",
     "index.ts"
   ],
   "compilerOptions": {
