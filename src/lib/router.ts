@@ -1,5 +1,4 @@
 import * as express from "express";
-import * as path from "path";
 import auth from "../api/auth/auth";
 import user from "../api/user/user";
 import {gallery} from "../../node-gallery/lib/gallery";
@@ -17,5 +16,7 @@ export default class Router {
         }))
         app.use("/api/auth", auth);
         app.use("/api/user", user);
+        
     }
 }
+

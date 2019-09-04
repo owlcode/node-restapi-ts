@@ -1,4 +1,4 @@
-import * as _ from 'underscore';
+import _ from 'underscore';
 var fs = require('fs'),
 path = require('path'),
 cache = require('memory-cache'),

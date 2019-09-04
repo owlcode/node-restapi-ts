@@ -1,10 +1,43 @@
-import * as express from 'express';
+import express from 'express';
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const sharp = require('sharp');
 const cache = require('memory-cache');
 let common;
+
+export enum PhotoQueryParams {
+
+}
+
+export class OwlGalleryMiddleware {
+    static checkForPreviouslyResizedInCache(cachedResizedKey, res) {
+        let cachedResult = cache.get(cachedResizedKey)
+        //  TODO - eventualyl should just
+        //try the fs.read on cachedResult, existsSync is a bad hack
+        if (cachedResult && fs.existsSync(cachedResult)) {
+            // cache hit - read & return
+            var cacheReadStream = fs.createReadStream(cachedResult);
+            cacheReadStream.on('error', function (err) {
+                // return common.error(req, res, next, 404, 'File not found', err);
+            });
+
+            return cacheReadStream.pipe(res);
+        }
+    }
+
+    static getImageDimensions(req, config) {
+        if (req.query.tn.toString() === '1') {
+            let w = (config.thumbnail && config.thumbnail.width) || 200;
+            let h = (config.thumbnail && config.thumbnail.height) || 200;
+            return w + 'x' + h;
+        } else {
+            let w = (config.image && config.image.width) || 1920;
+            let h = (config.image && config.image.height) || 1080;
+            return w + 'x' + h;
+        }
+    }
+}
 
 module.exports = function (config) {
     var app = express(),
@@ -18,78 +51,52 @@ module.exports = function (config) {
 
     // Photo Page
     app.get(/.+(\.(jpg|bmp|jpeg|gif|png|tif)(\?tn=(1|0))?)$/i, function (req, res, next) {
-        var filePath = path.join(staticFiles, req.path),
-            fstream;
+        const filePath = decodeURI(path.join(staticFiles, req.path));
+        const fstream = fs.createReadStream(filePath);
 
-        filePath = decodeURI(filePath);
-
-        fstream = fs.createReadStream(filePath);
         fstream.on('error', function (err) {
             console.log('Error when reading file', err);
             return common.error(req, res, next, 404, 'File not found', err);
         });
 
         if (!req.query.tn) {
+            console.log('elo)');
             // return the full size file
             return fstream.pipe(res);
         } else {
-            console.log('Start image resize');
             // streaming resize our file
-            var cachedResizedKey, cacheWriteStream, cachedResult,
-                resizer, dimensions, w, h;
-            if (req.query.tn.toString() === '1') {
-                w = (config.thumbnail && config.thumbnail.width) || 200;
-                h = (config.thumbnail && config.thumbnail.height) || 200;
-                dimensions = w + 'x' + h;
-            } else {
-                w = (config.image && config.image.width) || '100%';
-                h = (config.image && config.image.height) || '100%';
-                dimensions = w + 'x' + h;
-            }
+            let cachedResizedKey, cacheWriteStream,
+                resizer;
+
+            const dimensions = OwlGalleryMiddleware.getImageDimensions(req, config);
 
             cachedResizedKey = filePath + dimensions;
             cachedResizedKey = crypto.createHash('md5').update(cachedResizedKey).digest('hex');
 
             // Check the cache for a previously rezized tn of matching file path and dimensions
-            cachedResult = cache.get(cachedResizedKey)
-            // TODO - eventualyl should just try the fs.read on cachedResult, existsSync is a bad hack
-            if (cachedResult && fs.existsSync(cachedResult)) {
-                // cache hit - read & return
-                var cacheReadStream = fs.createReadStream(cachedResult);
-                cacheReadStream.on('error', function (err) {
-                    return common.error(req, res, next, 404, 'File not found', err);
-                });
-                return cacheReadStream.pipe(res);
-            }
+            // OwlGalleryMiddleware.checkForPreviouslyResizedInCache()
 
             // No result, create a write stream so we don't have to reize this image again
             const cacheWritePath: any = path.join('/tmp', cachedResizedKey);
             cacheWriteStream = fs.createWriteStream(cacheWritePath);
 
-            const resizeStream = sharp(fstream)
-                .resize(...dimensions.split('x').map(dim => Number(dim)))
-                .toFile(cachedResizedKey, (err, info) => {
-                    if (err) {
-                        console.error(err)
-                        return common.error(req, res, next, 500, 'Error in IM/GM converting file', err);
-                    }
+            const resizeStream = fstream
+                .pipe(
+                    sharp()
+                    .resize(...dimensions.split('x').map(dim => Number(dim)))
+                    .on('info', (info) => {
+                        console.log('Image height is ' + info.height);
+                    })
+                    .on('end', (e) => {
+                        console.log(e);
+                    })
+                )
 
-                    console.log(info);
-
-                });
-
-            // var resizestream = fstream.pipe(resizer);
-
-            // Pipe to our tmp cache file, so we can use this in future
-            // resizestream.pipe(cacheWriteStream);
+            resizeStream
+                .pipe(cacheWriteStream)
             cache.put(cachedResizedKey, cacheWritePath);
+            return resizeStream.pipe(res);
 
-            // Also stream the resized result back to the requestee
-
-            // return resizeStream.
-            return res;
-            // return resizestream.pipe(res);
-            // return resizestream.pipe(res);
         }
 
 

@@ -1,6 +1,6 @@
 import { Server } from "./src/server";
 import {PORT} from './settings';
-import * as express from 'express';
+import express from 'express';
 
 let port = PORT;
 let api = new Server(express(), port);

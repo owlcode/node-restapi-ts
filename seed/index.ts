@@ -1,5 +1,5 @@
 import {UserSeed} from './user'
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import {MONGO_URL} from '../settings';
 
 const LOAD = 100;
