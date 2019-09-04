@@ -1,8 +1,8 @@
+import * as _ from 'underscore';
 var fs = require('fs'),
 path = require('path'),
 cache = require('memory-cache'),
 isPhoto = /(\.(jpg|bmp|jpeg|gif|png|tif))$/i,
-_ = require('underscore'),
 common,
 config;
 
@@ -41,7 +41,7 @@ module.exports = function(cfg){
       
       data.isRoot = (req.path === '/' || req.path === '');
       data.breadcrumb = common.breadcrumb(pathFromReq),
-      data.name = _.last(data.breadcrumb).name || config.title;
+      data.name = _.last<any>(data.breadcrumb).name || config.title;
       
       data.albums = _getAlbums(files, staticFilesPath, pathFromReq);
       data.photos = _getPhotos(files, staticFilesPath, pathFromReq);
@@ -69,11 +69,11 @@ function _getAlbums(files, staticFilesPath, pathFromReq){
 }
 
 function _getPhotos(files, staticFilesPath, pathFromReq){
-  files = _.filter(files, function(file){
+  files = _.filter<any>(files, function(file){
     var stat = fs.statSync(path.join(staticFilesPath, file));
     return file.match(isPhoto) && !stat.isDirectory()
   });
-  files = _.map(files, function(photoFileName){
+  files = _.map<any>(files, function(photoFileName){
     var photoName = photoFileName.replace(isPhoto, '');
     return {
       url : path.join(config.urlRoot, pathFromReq, 'photo', photoName),
@@ -98,7 +98,7 @@ function _thumbnail(albumPath, pathFromRequest, cb){
     albums = _getAlbums(files, albumPath, pathFromRequest);
     if (photos.length > 0){
       // We have a photo, let's return the first as the thumb
-      var firstPhoto = _.first(photos).path;
+      var firstPhoto = _.first<any>(photos).path;
       firstPhoto = path.join(config.staticFiles, firstPhoto);
       
       cache.put(albumPath, firstPhoto);
@@ -106,7 +106,7 @@ function _thumbnail(albumPath, pathFromRequest, cb){
     }else if (albums.length > 0){
       // No photos found - iterate thru the albums and find a suitable child to return
       // TODO: If this first sub-album is empty this will fail. Is this OK?
-      var firstAlbum = _.first(albums).name;
+      var firstAlbum = _.first<any>(albums).name;
       return _thumbnail(path.join(albumPath, firstAlbum), path.join(pathFromRequest, firstAlbum), cb);
     }else{
       // None exist

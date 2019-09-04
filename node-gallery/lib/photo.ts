@@ -1,8 +1,8 @@
-var fs = require('fs'),
-path = require('path'),
-_ = require('underscore'),
-exif = require('./exif'),
-common;
+import * as fs from 'fs';
+import * as path from 'path';
+import * as _ from 'underscore';
+import {exif} from './exif';
+let common;
 
 module.exports = function(config){
   common = require('./common')(config);
@@ -17,7 +17,7 @@ module.exports = function(config){
       if (err || _.isEmpty(files)){
         return common.error(req, res, next, 404, 'Photo not found', err);
       }
-      var file = _.find(files, function(file){
+      var file = _.find<any>(files, function(file){
         return file.indexOf(photoName) > -1;
       });
       if (!file){

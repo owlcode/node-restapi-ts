@@ -1,5 +1,6 @@
-var _ = require('underscore'),
-path = require('path'),
+import * as _ from 'underscore';
+// var _ = require('underscore'),
+var path = require('path'),
 ejs = require('ejs'),
 fs = require('fs'),
 config;
@@ -9,7 +10,7 @@ module.exports = function(cfg){
   return common;
 };
 
-var common = {};
+var common: any = {};
 
 common.breadcrumb = function(paths){
   paths = paths.split('/');

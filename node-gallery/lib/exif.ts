@@ -4,7 +4,7 @@ var ExifImage = require('exif').ExifImage;
  * Utility function to convert exif data into something a bit more consumable
  * by a template
  */
-var exif = function(staticPath, callback){
+export const exif = function(staticPath, callback){
   try {
     new ExifImage({
       image : staticPath//'resources/photos/Ireland/West Coast/_MG_4174.jpg'
@@ -68,11 +68,9 @@ function dec2frac(d) {
     }
     else {
       bot += 1;
-      top = parseInt(d * bot);
+      top = parseInt(String(d * bot));
     }
     df = top / bot;
   }
   return top + '/' + bot;
 }
-
-module.exports = exif;

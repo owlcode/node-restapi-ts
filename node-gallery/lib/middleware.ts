@@ -1,11 +1,10 @@
-var express = require('express'),
-    fs = require('fs'),
-    path = require('path'),
-    crypto = require('crypto'),
-    sharp = require('sharp')
-    cache = require('memory-cache'),
-    im = require('imagemagick-stream');
-    var common;
+import * as express from 'express';
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const sharp = require('sharp');
+const cache = require('memory-cache');
+let common;
 
 module.exports = function (config) {
     var app = express(),
@@ -57,14 +56,14 @@ module.exports = function (config) {
             if (cachedResult && fs.existsSync(cachedResult)) {
                 // cache hit - read & return
                 var cacheReadStream = fs.createReadStream(cachedResult);
-                cacheReadStream.on('error', function () {
+                cacheReadStream.on('error', function (err) {
                     return common.error(req, res, next, 404, 'File not found', err);
                 });
                 return cacheReadStream.pipe(res);
             }
 
             // No result, create a write stream so we don't have to reize this image again
-            cacheWritePath = path.join('/tmp', cachedResizedKey);
+            const cacheWritePath: any = path.join('/tmp', cachedResizedKey);
             cacheWriteStream = fs.createWriteStream(cacheWritePath);
 
             const resizeStream = sharp(fstream)

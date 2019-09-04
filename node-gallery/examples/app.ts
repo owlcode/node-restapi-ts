@@ -1,3 +1,5 @@
+import {gallery} from '../lib/gallery';
+
 // Usage example with ExpressJS
 var express = require('express'),
 port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3001,
@@ -9,7 +11,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('./'));
 
 // In your project, this would be require('node-gallery')
-app.use('/gallery', require('../lib/gallery.ts')({
+app.use('/gallery', gallery({
   staticFiles : '/photos',
   urlRoot : 'gallery',
   title : 'Example Gallery',
