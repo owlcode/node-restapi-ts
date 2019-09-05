@@ -104,6 +104,7 @@ module.exports = function (config) {
 
     // Photo Pages - anything containing */photo/*
     app.get(/(.+\/)?photo\/(.+)/i, photo, common.render);
+
     // Album Page - everything that doesn't contain the photo string
     // regex source http://stackoverflow.com/questions/406230/regular-expression-to-match-string-not-containing-a-word
     app.get(/^((?!\/photo\/).)*$/, album, common.render);

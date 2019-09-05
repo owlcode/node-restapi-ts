@@ -1,9 +1,10 @@
 import * as spdy from 'spdy';
-import {Middleware} from './lib/middleware';
+import {Middleware} from './api/middleware';
 import Router from './lib/router';
 import {CERT_FILES_FS, MONGO_URL} from '../settings';
 import {connect as connectMongo} from 'mongoose';
 import * as express from 'express';
+import {gallery} from "./../node-gallery/lib/gallery";
 
 export class Server {
 
@@ -12,8 +13,19 @@ export class Server {
     constructor(private app: express.Express, private port: number) {
         connectMongo(MONGO_URL);
 
-        new Middleware().configure(app);
+        // API
         new Router().configure(app);
+        new Middleware().configure(app);
+
+        app.use("/", gallery({
+            staticFiles: 'photos',
+            urlRoot: '/',
+            title: 'owlstd.io gallery - tylko Twoje zdjęcia',
+            thumbnail: {
+                width: 150,
+                height: 150
+            }
+        }))
     }
 
     public run() {
