@@ -46,6 +46,7 @@ common.error = function (req, res, next, status, message, errorObject) {
 };
 
 common.render = function (req, res, next) {
+    // todo replace with react server rendered
     var data = req.data,
         tpl = req.tpl;
     if (config.render === false) {

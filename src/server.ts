@@ -16,7 +16,7 @@ export class Server {
         // API
         new Router().configure(app);
         new Middleware().configure(app);
-
+        app.use(express.static(__dirname + "/public/"));
         app.use("/", gallery({
             staticFiles: 'photos',
             urlRoot: '/',
