@@ -1,75 +1,80 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
-ul li.thumb img{
-    max-width: 150px;
-    max-height: 150px;
-}
-ul li.thumb figure {
-    width: 150px;
-    height: 150px;
-    padding: 0px 0px 10px 0px;
-    margin: 0;
-}
-ul li.thumb {
-    text-align: center;
-    list-style: none;
-    float: left;
-    width: 150px;
-    min-height: 190px;
-    height: 190px;
-    margin: 10px;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-}
-
-figure.photo {
-  margin: 0;
-}
+    ul li.thumb {
+        text-align: center;
+        list-style: none;
+        float: left;
+        width: 150px;
+        min-height: 190px;
+        height: 190px;
+        margin: 10px;
+        padding: 6px 8px;
+        border: 1px solid #ccc;
+    }
 
 </style>
 <% if (!isRoot){ %>
-  <nav class="breadcrumb">
+<nav class="breadcrumb">
 
-  <% for (var i=0; i<breadcrumb.length; i++) { %>
-  <% if (i==breadcrumb.length-1){ %>
-  <%= breadcrumb[i].name %>
-  <% }else{ %>
-  <a href="/<%= breadcrumb[i].url %>"> <%= breadcrumb[i].name %> &raquo; </a>
-  <% } %>
-  <% } %>
+    <% for (var i=0; i<breadcrumb.length; i++) { %>
+    <% if (i==breadcrumb.length-1){ %>
+    <%= breadcrumb[i].name %>
+    <% }else{ %>
+    <a href="/<%= breadcrumb[i].url %>"> <%= breadcrumb[i].name %> &raquo; </a>
+    <% } %>
+    <% } %>
 
-  </nav>
+</nav>
 <% } %>
 
 <h1 class="album-title"><%= name %></h1>
 
 <% if (albums.length>0){ %>
-  <h2>Albums</h2>
-  <ul class="albums">
+<h2>Albums</h2>
+<ul class="albums">
     <% albums.forEach(function(album){ %>
-      <li class="thumb">
+    <li class="thumb">
         <a href="/<%= album.url %>">
-          <figure>
-            <img src="/<%= album.url %>?tn=1" alt="<%= album.name %>"/>
-            <figcaption><%= album.name %></figcaption>
-          </figure>
+            <figure class="figure">
+                <img src="/<%= album.url %>?tn=1" alt="<%= album.name %>" class="figure-img img-fluid rounded" />
+                <figcaption class="figure-caption"><%= album.name %></figcaption>
+            </figure>
         </a>
-      </li>
+    </li>
     <% }) %>
-  </ul>
+</ul>
 <% } %>
 
 <% if (photos.length>0){ %>
-  <h2>Photos</h2>
-  <ul class="photos">
+<h2>Photos</h2>
+<div class="card-group">
     <% photos.forEach(function(photo){ %>
-      <li class="thumb">
-        <a href="/<%= photo.url %>">
-          <figure>
-            <img src="/<%= photo.src %>?tn=1" alt="<%= photo.name %>"/>
-            <figcaption><%= photo.name %></figcaption>
-          </figure>
-        </a>
-      </li>
+    <a href="/<%= photo.url %>" class="card">
+      <img src="/<%= photo.src %>?tn=1" class="card-img-top" alt="<%= photo.name %>">
+      <div class="card-body">
+        <h5 class="card-title"> <%= photo.name %></h5>
+        <p class="card-text"></p>
+        <p class="card-text"><small id="owl-site-print-wish-btn-<%= photo.src %>" class="text-muted">Do druku</small></p>
+      </div>
+    </a>
     <% }) %>
-  </ul>
+    
+  </div>
+
 <% } %>
+<script>
+    document.addEventListener('click', (event) => {
+        if (event.target && event.target.id) {
+            const name = event.target.id.split('owl-site-print-wish-btn-')[1]
+            fetch('/api/print-wish', {
+                method: 'POST',
+                body: JSON.stringify({
+                    sth: name
+                })
+            })
+            event.preventDefault();
+        }
+    })
+
+</script>

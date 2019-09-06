@@ -1,31 +1,5 @@
-<style>
-  ul li.thumb img{
-    max-width: 150px;
-    max-height: 150px;
-}
-ul li.thumb figure {
-    width: 150px;
-    height: 150px;
-    padding: 0px 0px 10px 0px;
-    margin: 0;
-}
-ul li.thumb {
-    text-align: center;
-    list-style: none;
-    float: left;
-    width: 150px;
-    min-height: 190px;
-    height: 190px;
-    margin: 10px;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-figure.photo {
-  margin: 0;
-}
-
-</style>
 <nav class="breadcrumb">
 <% for (var i=0; i<breadcrumb.length; i++) { %>
 
@@ -40,9 +14,9 @@ figure.photo {
 
 <h1 class="photo-title"><%= name %></h1>
 
-<figure class="photo">
-  <img src="<%= src %>?tn=0" alt="<%= name%>">
-  <figcaption>
+<figure class="photo figure">
+  <img src="<%= src %>?tn=0" class="figure-img img-fluid rounded" alt="<%= name%>">
+  <figcaption class="figure-caption">
     <% if (exif && exif.Description){ %>
     <%= exif.Description%>
     <% }else{ %>

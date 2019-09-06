@@ -27,30 +27,27 @@ export class UserSeed {
 
     private static realData(): IUser[] {
         return <any> [{
-            userName: 'dawid',
-            firstName: 'Dawid',
-            lastName: 'Sowa',
+            userName: 'dsowa',
+            firstName: 'Dawid Paeu',
+            lastName: 'Soa',
             password: 'dawid',
-            mail: 'sowa@dawidsowa.pl',
-            spot: null,
+            mail: 'me@owlstd.io',
         }, {
             userName: 'admin',
             password: 'admin',
             firstName: 'Administrator',
             lastName: 'Systemu',
-            mail: 'sowa@dawidsowa.pl',
-            spot: 'A1'
+            mail: 'admin@owlstd.io'
         }]
     }
     private static fakerModel(i: number): IUser {
         let userName = faker.internet.userName();
         return <any> {
-            mail: 'sowa@dawidsowa.pl',
+            mail: `${userName}@owlstd.io`,
             firstName: faker.name.firstName(),
             lastName: faker.name.findName(),
             userName,
             photo: faker.image.people(),
-            spot: (i % 3 === 0) ? 'A' + i : null,
             password: faker.random.number(),
             phone: faker.phone.phoneNumber(),
         }
