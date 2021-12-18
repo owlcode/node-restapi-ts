@@ -24,7 +24,7 @@
     "nodemailer": "^6.6.1",
     "nodemon": "^2.0.2",
     "promise": "7.1.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "serve-favicon": "^2.5.0",
     "spdy": "3.4.4",
     "ts-promise": "^2.2.0",
